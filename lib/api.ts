@@ -82,7 +82,7 @@ export async function request(
     }
 ) {
     const url = new URL(`${API_URL}${endpoint}`)
-    const auth = options?.auth ?? true
+    const auth = options?.auth ?? false
 
     if (options?.params) {
         Object.entries(options.params).forEach(([k, v]) => {
@@ -101,12 +101,9 @@ export async function request(
 
     if (auth) {
         const token = await verifyAndRefreshToken()
-        if (!token) {
-            clearTokens()
-            window.location.href = "/login"
-            return null
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`
         }
-        headers["Authorization"] = `Bearer ${token}`
     }
 
     const res = await fetch(url.toString(), {
