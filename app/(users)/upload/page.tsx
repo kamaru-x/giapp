@@ -233,23 +233,44 @@ export default function Page() {
                 </CardContent>
 
                 <CardFooter className="flex justify-end gap-3">
-                    <Button
-                        variant="outline"
-                        onClick={() => router.push("/users")}
-                        disabled={loading}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={handleUpload}
-                        disabled={!file || loading}
-                        className="min-w-32"
-                    >
-                        {loading
-                            ? <><IconLoader className="mr-2 h-4 w-4 animate-spin" /> Uploading...</>
-                            : <><IconUpload className="mr-2 h-4 w-4" /> Upload CSV</>
-                        }
-                    </Button>
+                    {result ? (
+                        <>
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    setResult(null);
+                                    setFile(null);
+                                    setError(null);
+                                }}
+                            >
+                                <IconUpload className="mr-2 h-4 w-4" />
+                                Upload Another
+                            </Button>
+                            <Button onClick={() => router.push("/")}>
+                                Go to Users
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                variant="outline"
+                                onClick={() => router.push("/")}
+                                disabled={loading}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={handleUpload}
+                                disabled={!file || loading}
+                                className="min-w-32"
+                            >
+                                {loading
+                                    ? <><IconLoader className="mr-2 h-4 w-4 animate-spin" /> Uploading...</>
+                                    : <><IconUpload className="mr-2 h-4 w-4" /> Upload CSV</>
+                                }
+                            </Button>
+                        </>
+                    )}
                 </CardFooter>
             </Card>
         </div>
